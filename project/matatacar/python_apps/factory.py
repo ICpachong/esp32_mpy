@@ -113,9 +113,9 @@ def factory_aging_test_start(carble, item, test_hour):
             audio_play.play_melody(1)
             # led.show_all(0, 0, 255)
         if(item & (1 << 1)):
-            drv_motion.motion_forward(1,1)
+            drv_motion.forward(1,1)
             # led.show_all(0, 255, 0)
-            drv_motion.motion_backward(1,1)
+            drv_motion.backward(1,1)
             # led.show_all(0, 0, 255)
         if(item & (1 << 2)):
             # led.show_all(255, 0, 0)
@@ -136,7 +136,7 @@ def factory_aging_test_start(carble, item, test_hour):
 
 def factory_aging_test_stop(carble):
     audio_play.play_stop()
-    drv_motion.motion_stop(2)
+    drv_motion.stop(2)
     ret = [0]
     carble.send_upstream(bytes(ret))
 
@@ -193,22 +193,22 @@ def factory_cmd_unknow(carble, msg):
 def factory_emc_test_start():
     audio_play.play_music(1,False)
     # led.show_all(255, 255, 255)
-    drv_motion.motion_move_speed(100,100)
+    drv_motion.move_speed(100,100)
     time.sleep(5)
     # led.show_all(0, 0, 0)
-    drv_motion.motion_move_speed(0,0)
+    drv_motion.move_speed(0,0)
     time.sleep(1)
     # led.show_all(255, 255, 255)
-    drv_motion.motion_move_speed(-100,-100)
+    drv_motion.move_speed(-100,-100)
     time.sleep(5)
     # led.show_all(0, 0, 0)
-    drv_motion.motion_move_speed(0,0)
+    drv_motion.move_speed(0,0)
     time.sleep(1)
         
 def factory_emc_test_stop():
     audio_play.play_stop()
     # led.show_all(0, 0, 0)
-    drv_motion.motion_move_speed(0,0)
+    drv_motion.move_speed(0,0)
 
 KEY_START = 4
 emc_test_flag = True

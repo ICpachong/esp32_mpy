@@ -17,13 +17,13 @@ MOTION_TURN_RIGHT = 2
 MOTION_BACKWARD   = 3
 
 def play(file_name, sync):
-    music_root = '/sdcard/music'
+    music_root = '/sdcard/music/'
     
-    file_full_name = music_root + file_name
+    file_full_name = "%s%s" %(music_root, file_name)
     if(if_file_exists(file_full_name) == False):
         print("file not exist:",file_full_name)
         return
-    audio_play.play(file_full_name, 70, sync)
+    audio_play.play(file_full_name, sync)
 
 
 def play_move_time(index, delay):
@@ -38,13 +38,13 @@ def get_vol():
 
 def action_motion(type, value):
     if(type == MOTION_FORWARD):
-        drv_motion.motion_move_position(value, 1)
+        drv_motion.move_position(value, 1)
     if(type == MOTION_TURN_LEFT):
-        drv_motion.motion_move_angle(value, 1)
+        drv_motion.move_angle(value, 1)
     if(type == MOTION_TURN_RIGHT):
-        drv_motion.motion_move_angle((-1*value), 1)
+        drv_motion.move_angle((-1*value), 1)
     if(type == MOTION_BACKWARD):
-        drv_motion.motion_move_position((-1*value), 1)
+        drv_motion.move_position((-1*value), 1)
     
 def action_eye(eye_mode, para):
     drv_led.led_eye_set(eye_mode, para)
@@ -55,7 +55,7 @@ def action_play_stop():
 def action_cancel_cmd():
     action_play_stop()
     action_eye(2,0)
-    drv_motion.motion_stop(2)
+    drv_motion.stop(2)
 
 def action_uint_unknow(p1,p2):
     pass
@@ -120,8 +120,6 @@ movement_code = {
 def action_movement_code_get(index):
     return movement_code.get(index, [])
 
-
-
 def action_parse(list):
     for byte in list:
         [delay, func, para1, para2] = action_unit.get(byte, [0, action_uint_unknow, 0, 0])
@@ -133,8 +131,6 @@ def action_parse(list):
         time.sleep_ms(delay + 100)
     time.sleep_ms(500)
     action_play_stop()
-
-
 
 def action_dance(index):
     audio_play.play_dance(index, 0)

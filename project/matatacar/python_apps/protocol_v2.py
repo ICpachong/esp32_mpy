@@ -13,6 +13,7 @@ import audio_play
 # import ota
 import wifi
 import system_state
+import sensor
 
 rx_msg = b''
 
@@ -265,13 +266,13 @@ def cmd_motion_contol(carble, cmd):
     parameter = (cmd[1] << 8) | cmd[2]
     print("type %s parameter %d"%(type(parameter), parameter))
     if(cmd[0] == 0x01):
-        drv_motion.motion_move_position(parameter, 1)
+        drv_motion.move_position(parameter, 1)
     elif(cmd[0] == 0x02):
-        drv_motion.motion_move_position((-1) * parameter, 1)
+        drv_motion.move_position((-1) * parameter, 1)
     elif(cmd[0] == 0x03):
-        drv_motion.motion_move_angle((-1) * parameter, 1)
+        drv_motion.move_angle((-1) * parameter, 1)
     elif(cmd[0] == 0x04):
-        drv_motion.motion_move_angle(parameter, 1)
+        drv_motion.move_angle(parameter, 1)
     else:
         msg_normal_response(carble, MESSAGE_ERROR_INVALID_PARAM)
         return
@@ -285,7 +286,7 @@ def cmd_animotion(carble, cmd):
         else:
             sign = -1
         left_speed = (cmd[2] << 8) | cmd[3]
-        drv_motion.motion_move_speed(sign * left_speed, "unchanged")
+        drv_motion.move_speed(sign * left_speed, "unchanged")
         
     if(cmd[0] == 0x02):
         #right speed
@@ -294,7 +295,7 @@ def cmd_animotion(carble, cmd):
         else:
             sign = -1
         right_speed = (cmd[2] << 8) | cmd[3]
-        drv_motion.motion_move_speed("unchanged", sign * right_speed)
+        drv_motion.move_speed("unchanged", sign * right_speed)
         
     if(cmd[0] == 0x03):
         #left speed
@@ -309,7 +310,7 @@ def cmd_animotion(carble, cmd):
             right_sign = -1
         right_speed = (cmd[5] << 8) | cmd[6]
         print("left_speed (%d) -- right_speed (%d)" %(left_speed, right_speed))
-        drv_motion.motion_move_speed(left_sign * left_speed, right_sign * right_speed)
+        drv_motion.move_speed(left_sign * left_speed, right_sign * right_speed)
     msg_normal_response(carble, MESSAGE_RX_OK)
 
 def cmd_dance(carble, cmd):

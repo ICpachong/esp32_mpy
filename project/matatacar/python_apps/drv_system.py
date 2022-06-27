@@ -96,8 +96,8 @@ def power_off():
     drv_led.led_eye_rgb_cfg(2, 0, 0, 0)
     matatalab.indicator_led(matatalab.OFF)
     audio_play.play_stop()  
-    drv_motion.motion_stop(2)
-    audio_play.play('/sdcard/music/system/1-off.mp3', 70, True)
+    drv_motion.stop(2)
+    audio_play.play('/sdcard/music/system/1-off.mp3', True)
     while True:
         matatalab.power_off()
         time.sleep(0.02)
